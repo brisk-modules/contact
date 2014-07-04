@@ -27,9 +27,8 @@ var helper = Main.extend({
 
 		var site = brisk.loadConfig('site');
 
-		// check user details
-		user = user || {};
-		// fallback to options
+		var user = {};
+		// get user details
 		user.name = data.name || "Someone";
 		user.email = data.email || false;
 		message = data.message || "";
