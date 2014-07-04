@@ -28,10 +28,13 @@ var controller = Parent.extend({
 		var captcha = ccap();
 		var data = captcha.get();
 
+		// only allow upto 100 simultaneous captchas (to preserve memory)
+		if( captchas.length > 100 ) captchas.shift();
+
 		// add first param in the list of captcha's
 		captchas.push( data[0] );
 
-		// rturn the second param (image blob)
+		// return the second param (image blob)
 		res.end( data[1] );
 
 	},
