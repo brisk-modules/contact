@@ -57,10 +57,10 @@ var helper = Main.extend({
 			subject: site.name +': New Feedback', //
 
 			// plaintext body
-			text: this.data.register.text({ user: user, message: message }),
+			text: this.data.register.text({ user: user, message: message, site: site }),
 
 			// HTML body
-			html: this.data.register.html({ user: user, message: message }),
+			html: this.data.register.html({ user: user, message: message, site: site }),
 
 			// An array of attachments
 			attachments:[]
