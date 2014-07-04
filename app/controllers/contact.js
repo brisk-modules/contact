@@ -57,7 +57,7 @@ var controller = Parent.extend({
 				// trigger event
 				this._onSend(req, res);
 				// redirect to homepage..
-
+				res.redirect('/');
 			break;
 			default:
 				// else redirect to the homepage
@@ -78,7 +78,7 @@ var controller = Parent.extend({
 		// supporting flash middleware
 		this.alert = alerts( req, res );
 		this.alert("success", "Your message has been sent successfully.");
-
+		// user actions
 		this.onSend(req, res);
 	}
 
@@ -103,7 +103,6 @@ function getData( post ){
 }
 
 function verifyCaptcha( post ){
-	console.log( post );
 	//get index of submitted captcha
 	var i = captchas.indexOf( post.captcha );
 	if( i > -1 ){
