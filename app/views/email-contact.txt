@@ -1,0 +1,6 @@
+{{user.name}} sent a new message from your contact form at {{site.name}}:
+
+{{message}}
+
+
+
