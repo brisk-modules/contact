@@ -10,7 +10,7 @@ var controller = Parent.extend({
 	name: "contact",
 
 	options: {
-		private: ["onSend"] // list of inaccessible methods
+		private: ["onError", "onSend"] // list of inaccessible methods
 	},
 
 	index : function(req, res){
@@ -47,7 +47,10 @@ var controller = Parent.extend({
 				// verify captcha
 				var valid = verifyCaptcha( req.body );
 				// exit now
-				if( !valid ) return res.redirect('/');
+				if( !valid ) {
+					this._onError(req, res);
+					return res.redirect('/');
+				}
 				// get data
 				var data = getData( req.body );
 				// send the email
@@ -68,16 +71,29 @@ var controller = Parent.extend({
 	},
 
 
-	// prompt the user to complete the authentication
-	onSend : function(req, res){
+	// if the validation fails...
+	onError: function(req, res){
+	},
+
+	// when we have a successful submission
+	onSend: function(req, res){
 	},
 
 	// private
-	_onSend : function(req, res){
+	_onError: function(req, res){
 		// display an error message...
 		// supporting flash middleware
 		this.alert = alerts( req, res );
-		this.alert("success", "Your message has been sent successfully.");
+		this.alert("error", "There was a problem with your input");
+		// user actions
+		this.onSend(req, res);
+	},
+
+	_onSend: function(req, res){
+		// display an error message...
+		// supporting flash middleware
+		this.alert = alerts( req, res );
+		this.alert("success", "Your message has been sent successfully");
 		// user actions
 		this.onSend(req, res);
 	}
