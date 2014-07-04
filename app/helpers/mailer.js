@@ -25,7 +25,7 @@ var helper = Main.extend({
 
 	submit: function( data ){
 
-		var site = brisk.loadConfig('site');
+		var site = this.site.loadConfig('site');
 
 		var user = {};
 		// get user details
