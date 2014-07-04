@@ -1,0 +1,39 @@
+{
+	"name": "brisk-contact",
+	"version": "0.0.1",
+	"description": "Brisk module for including a contact form",
+	"author": "makesites",
+	"contributors": [
+		{
+			"name": "Makis Tracend",
+			"email": "makis@makesit.es"
+		}
+	],
+	"homepage": "http://makesites.org/brisk",
+	"keywords": [
+		"node", "contact", "form", "brisk", "connect"", express"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/brisk-modules/contact"
+	},
+	"bugs": {
+		"url": "https://github.com/brisk-modules/contact/issues"
+	},
+	"licenses": [
+		{
+			"type": "MIT License",
+			"url": "http://makesites.org/licenses/MIT"
+		}
+	],
+	"main": "./index.js",
+	"engines": {
+		"node": ">0.8.x"
+	},
+	"dependencies": {
+		"brisk": "0.x",
+		"captcha ": "0.0.4",
+		"hbs": "~2.5.0",
+		"nodemailer": "~0.6.5"
+	}
+}
