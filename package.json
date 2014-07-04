@@ -32,7 +32,7 @@
 	},
 	"dependencies": {
 		"brisk": "0.x",
-		"captcha ": "0.0.4",
+		"ccap": "0.4.3",
 		"hbs": "~2.5.0",
 		"nodemailer": "~0.6.5"
 	}
