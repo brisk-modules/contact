@@ -1,16 +1,15 @@
-var _ = require('underscore'),
-	async = require("async"),
-	brisk = require("brisk"),
-	bcrypt = require("bcrypt"),
+var brisk = require("brisk"),
+	ccap = require("ccap"),
 	Parent = brisk.getBaseController("main"),
-	Mailer = require("../../index").getHelper("contact-mailer");
+	Mailer = require("../../index").getHelper("mailer");
 
+// data
+var captchas = [];
 
 var controller = Parent.extend({
-	name: "account",
+	name: "contact",
 
 	options: {
-		assets: [], // list of models related with users
 		private: ["onSend"] // list of inaccessible methods
 	},
 
@@ -23,13 +22,31 @@ var controller = Parent.extend({
 
 	},
 
+	captcha: function(req, res){
+
+		// initiate new capcha
+		var captcha = ccap();
+		var data = captcha.get();
+
+		// add first param in the list of captcha's
+		captchas.push( data[0] );
+
+		// rturn the second param (image blob)
+		res.end( data[1] );
+
+	},
+
 	// login to an existing account
 	submit: function(req, res){
 
 		switch( req.method ){
 			case "POST":
+				// verify captcha
+				var valid = verifyCaptcha( req.body );
+				// exit now
+				if( !valid ) return res.redirect('/');
 				// get data
-				var data = getData( c );
+				var data = getData( req.body );
 				// send the email
 				var mailer = new Mailer( req.site );
 				mailer.submit( data );
@@ -60,7 +77,7 @@ var controller = Parent.extend({
 		this.alert("success", "Your message has been sent successfully.");
 
 		this.onSend(req, res);
-	},
+	}
 
 });
 
@@ -82,6 +99,16 @@ function getData( post ){
 	return data;
 }
 
-
+function verifyCaptcha( post ){
+	console.log( post );
+	//get index of submitted captcha
+	var i = captchas.indexOf( post.captcha );
+	if( i > -1 ){
+		// delete captcha from list
+		delete captchas[i];
+		return true;
+	}
+	return false;
+}
 
 module.exports = controller;
