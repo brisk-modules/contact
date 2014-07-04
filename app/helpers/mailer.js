@@ -48,7 +48,7 @@ var helper = Main.extend({
 		var message = {
 
 			// sender info
-			from: '"'+ user.name +'" <'+ user.email +'>',
+			from: site.name +' <'+ site.email +'>',
 
 			// Comma separated list of recipients
 			to: site.name +' <'+ site.email +'>',
