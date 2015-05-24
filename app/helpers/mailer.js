@@ -2,7 +2,10 @@ var fs = require("fs"),
 	brisk = require("brisk"),
 	hbs = require("hbs"),
 	nodemailer = require('nodemailer'),
+	ses = require('nodemailer-ses-transport'),
+	//
 	Main = brisk.getClass("main");
+
 
 var helper = Main.extend({
 
@@ -23,13 +26,15 @@ var helper = Main.extend({
 		}
 	},
 
-	submit: function( data ){
-
-		var site = this.site.loadConfig('site');
-
+	submit: function( data, cb ){
+		// fallbacks
+		var data = data || {};
+		var cb = cb || function(){};
+		// variables
 		var user = {};
+		var site = this.site.loadConfig('site');
 		// get user details
-		user.name = data.name || "Someone";
+		user.name = data.name || "User";
 		user.email = data.email || false;
 		message = data.message || "";
 		// prerequisites
@@ -38,11 +43,11 @@ var helper = Main.extend({
 		// Create a Direct transport object
 		//var transport = nodemailer.createTransport("Direct", {debug: true});
 		// Create an Amazon SES transport object
-		var transport = nodemailer.createTransport("SES", {
-			AWSAccessKeyID: this.site.config.api.aws.key,
-			AWSSecretKey: this.site.config.api.aws.secret,
-			ServiceUrl: "https://email."+ this.options.region +".amazonaws.com" // make this variable?
-		});
+		var transport = nodemailer.createTransport(ses({
+			accessKeyId: this.site.config.api.aws.key,
+			secretAccessKey: this.site.config.api.aws.secret
+			//region: "us-east-1" // option?
+		}));
 
 		// Message object
 		var message = {
@@ -63,7 +68,7 @@ var helper = Main.extend({
 			html: this.data.register.html({ user: user, message: message, site: site }),
 
 			// An array of attachments
-			attachments:[]
+			//attachments:[]
 		};
 
 		//console.log('Sending Mail', message);
@@ -72,10 +77,11 @@ var helper = Main.extend({
 			if(error){
 				console.log('Error occured');
 				console.log(error.message);
-				return;
+				return cb( error );
 			}else{
 				//console.log(response);
-				console.log('Message sent successfully!');
+				//console.log('Message sent successfully!');
+				return cb(null, true); // success
 			}
 
 		});
