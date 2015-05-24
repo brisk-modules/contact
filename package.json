@@ -31,9 +31,10 @@
 		"node": ">0.8.x"
 	},
 	"dependencies": {
-		"brisk": "0.x",
-		"ccap": "0.4.3",
-		"hbs": "~2.5.0",
-		"nodemailer": "~0.6.5"
+		"brisk": "0.9.1",
+		"ccap": "0.6.0",
+		"hbs": "3.0.1",
+		"nodemailer": "1.3.2",
+		"nodemailer-ses-transport": "1.2.0"
 	}
 }
