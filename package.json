@@ -20,6 +20,7 @@
 	"bugs": {
 		"url": "https://github.com/brisk-modules/contact/issues"
 	},
+	"license": "MIT",
 	"licenses": [
 		{
 			"type": "MIT License",
