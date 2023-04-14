@@ -1,5 +1,5 @@
 var brisk = require("brisk"),
-	kaptcha = require("kaptcha"),
+	captcha = require("node-captcha-generator"),
 	Parent = brisk.getBaseController("main"),
 	Mailer = require("../../index").getHelper("mailer");
 
@@ -25,17 +25,18 @@ var controller = Parent.extend({
 	captcha: function(req, res){
 
 		// initiate new capcha
-		var captcha = kaptcha.generateCode();
-		var img = kaptcha.generateImage(req, res, { width: 100, height: 30, text: captcha });
+		var img = new captcha({ length:5, size:{ width: 450, height: 200 }});
 
 		// only allow upto 100 simultaneous captchas (to preserve memory)
-		//if( captchas.length > 100 ) captchas.shift();
+		if( captchas.length > 100 ) captchas.shift();
 
-		// add first param in the list of captcha's
-		//captchas.push( data[0] );
+		// add string param in the list of captcha's
+		captchas.push( img.value );
 
-		// return the second param (image blob)
-		res.end( img );
+		// return the image blob (base64)
+		img.toBase64(function(err, data){
+			res.end( data );
+		});
 
 	},
 
@@ -45,7 +46,7 @@ var controller = Parent.extend({
 		switch( req.method ){
 			case "POST":
 				// verify captcha
-				var valid =  (req.session.captcha == req.body.captcha); //verifyCaptcha( req.body );
+				var valid = verifyCaptcha( req.body ); // (req.session.captcha == req.body.captcha);
 				// exit now
 				if( !valid ) {
 					this._onError(req, res);
