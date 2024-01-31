@@ -35,7 +35,7 @@
 		"brisk": "1.x.x",
 		"node-captcha-generator": "0.x.x",
 		"hbs": "4.0.4",
-		"nodemailer": "6.2.1",
+		"nodemailer": "6.9.8",
 		"nodemailer-ses-transport": "1.5.1"
 	}
 }
